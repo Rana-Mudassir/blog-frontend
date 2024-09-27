@@ -1,5 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Home from './components/Home';
 
 function App() {
   return (
@@ -13,16 +16,5 @@ function App() {
   );
 }
 
-function Home() {
-  return <h2>Home Page</h2>;
-}
-
-function Login() {
-  return <h2>Login Page</h2>;
-}
-
-function Signup() {
-  return <h2>Signup Page</h2>;
-}
 
 export default App;
