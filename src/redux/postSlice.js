@@ -24,7 +24,7 @@ export const createPost = createAsyncThunk('posts/createPost', async (postData, 
     const formData = new FormData();
     formData.append('title', postData.title);
     formData.append('content', postData.content);
-    formData.append('tags', postData.tags);
+    formData.append('categories', postData.categories);
     if (postData.image) {
       formData.append('image', postData.image); // Append the image file
     }
@@ -38,13 +38,18 @@ export const createPost = createAsyncThunk('posts/createPost', async (postData, 
   }
 });
 
-export const fetchPostById = createAsyncThunk('posts/fetchPostById', async ({id}, thunkAPI) => {
-  const response = await axios.put(`http://localhost:5000/api/posts/${id}`);
-  return response.data;
+export const fetchPostById = createAsyncThunk('posts/fetchPostById', async (id, { rejectWithValue }) => {
+  try {
+    const response = await axios.get(`http://localhost:5000/api/posts/${id}`);
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.response.data.message || 'Error fetching post');
+  }
 });
 
 export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, updatedPost }, thunkAPI) => {
   const token = thunkAPI.getState().auth.token;
+  console.log("token", token)
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -69,6 +74,7 @@ const postSlice = createSlice({
   name: 'posts',
   initialState: {
     posts: [],
+    post: null,
     loading: false,
     error: null,
   },
@@ -83,6 +89,17 @@ const postSlice = createSlice({
         state.posts = action.payload;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message; 
+      })
+      .addCase(fetchPostById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchPostById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.post = action.payload;
+      })
+      .addCase(fetchPostById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })

@@ -18,8 +18,8 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/create" element={<CreatePost />} />
-            <Route path="/post/:id" element={<PostDetails />} />
-            <Route path="/post/edit/:id" element={<EditPost />} />
+            <Route path="/posts/:id" element={<PostDetails />} />
+            <Route path="/edit-post/:id" element={<EditPost />} />
           </Routes>
         </div>
     </Router>
