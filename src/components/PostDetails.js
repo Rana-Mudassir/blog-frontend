@@ -42,7 +42,7 @@ function PostDetails() {
   {/* Blog Post Header */}
   {post.image && (
     <img
-      src={`http://localhost:4000${post.image}`}
+      src={`http://localhost:5000${post.image}`}
       alt={post.title}
       className="w-full h-auto object-cover mb-6 rounded-lg"
     />

@@ -4,7 +4,7 @@ import axios from 'axios';
 // Async Thunks for login and registration
 export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, thunkAPI) => {
   try {
-    const response = await axios.post('http://localhost:4000/api/auth/login', credentials);
+    const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
     localStorage.setItem('token', response?.data?.token);
     return response?.data;
   } catch (error) {
@@ -18,7 +18,7 @@ export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, 
 
 export const registerUser = createAsyncThunk('auth/registerUser', async (userData, thunkAPI) => {
   try {
-    const response = await axios.post('http://localhost:4000/api/auth/register', userData);
+    const response = await axios.post('http://localhost:5000/api/auth/register', userData);
     localStorage.setItem('token', response?.data?.token);
     return response?.data;
   } catch (error) {

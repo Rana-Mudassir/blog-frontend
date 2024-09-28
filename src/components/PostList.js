@@ -43,7 +43,7 @@ function PostList() {
           >
             <Link to={`/posts/${post._id}`}>
               <img
-                src={`http://localhost:4000${post.image}`}
+                src={`http://localhost:5000${post.image}`}
                 alt={post.title}
                 className="w-full h-48 object-cover"
               />
