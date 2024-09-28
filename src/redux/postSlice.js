@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Async thunks for CRUD operations
-export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
-  const response = await axios.get('http://localhost:5000/api/posts');
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (page = 1) => {
+  const response = await axios.get(`http://localhost:4000/api/posts?page=${page}`);
   return response.data;
 });
 
@@ -29,7 +29,7 @@ export const createPost = createAsyncThunk('posts/createPost', async (postData, 
       formData.append('image', postData.image); // Append the image file
     }
 
-    const response = await axios.post('http://localhost:5000/api/posts', formData, config
+    const response = await axios.post('http://localhost:4000/api/posts', formData, config
     );
 
     return response.data;
@@ -40,7 +40,7 @@ export const createPost = createAsyncThunk('posts/createPost', async (postData, 
 
 export const fetchPostById = createAsyncThunk('posts/fetchPostById', async (id, { rejectWithValue }) => {
   try {
-    const response = await axios.get(`http://localhost:5000/api/posts/${id}`);
+    const response = await axios.get(`http://localhost:4000/api/posts/${id}`);
     return response.data;
   } catch (error) {
     return rejectWithValue(error.response.data.message || 'Error fetching post');
@@ -55,8 +55,16 @@ export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, upda
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.put(`http://localhost:5000/api/posts/${id}`, updatedPost, config);
-  return response.data;
+  try {
+    const response = await axios.put(`http://localhost:4000/api/posts/${id}`, updatedPost, config);
+    return response.data;
+  } catch (error) {
+    // Return a rejected value with status and message
+    return thunkAPI.rejectWithValue({
+      status: error.response?.status,
+      message: error.response?.data.message || error.message,
+    });
+  }
 });
 
 export const deletePost = createAsyncThunk('posts/deletePost', async (id, thunkAPI) => {
@@ -66,8 +74,17 @@ export const deletePost = createAsyncThunk('posts/deletePost', async (id, thunkA
       Authorization: `Bearer ${token}`,
     },
   };
-  await axios.delete(`http://localhost:5000/api/posts/${id}`, config);
-  return id;
+  try {
+    await axios.delete(`http://localhost:4000/api/posts/${id}`, config);
+    return id;
+  }
+  catch (error) {
+    // Return a rejected value with status and message
+    return thunkAPI.rejectWithValue({
+      status: error.response?.status,
+      message: error.response?.data.message || error.message,
+    });
+  }
 });
 
 const postSlice = createSlice({
@@ -75,6 +92,7 @@ const postSlice = createSlice({
   initialState: {
     posts: [],
     post: null,
+    totalPages : 0,
     loading: false,
     error: null,
   },
@@ -86,7 +104,8 @@ const postSlice = createSlice({
       })
       .addCase(fetchPosts.fulfilled, (state, action) => {
         state.loading = false;
-        state.posts = action.payload;
+        state.totalPages = action.payload.totalPages;
+        state.posts = action.payload.posts;
       })
       .addCase(fetchPosts.rejected, (state, action) => {
         state.loading = false;

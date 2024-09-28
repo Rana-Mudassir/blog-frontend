@@ -36,33 +36,73 @@ const CreatePost = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+<div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <h2 className="text-3xl font-bold text-gray-800 mb-6">Create Post</h2>
+    <form onSubmit={handleSubmit} className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md space-y-4">
+      {/* Post Title */}
       <input
         type="text"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Post Title"
         required
+        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
+  
+      {/* Post Content */}
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Post Content"
         required
+        rows="5"
+        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
+  
+      {/* Categories */}
       <input
         type="text"
         value={categories}
         onChange={(e) => setCategories(e.target.value)}
         placeholder="Categories (comma-separated)"
+        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-      {imagePreview && <img src={imagePreview} alt="Preview" style={{ width: '200px' }} />}
-      <button type="submit" disabled={loading}>
+  
+      {/* Image Upload */}
+      <div className="flex flex-col space-y-2">
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="w-full p-2 border border-gray-300 rounded-md"
+        />
+        {imagePreview && (
+          <img
+            src={imagePreview}
+            alt="Preview"
+            className="w-48 h-auto object-cover rounded-md border border-gray-300"
+          />
+        )}
+      </div>
+  
+      {/* Submit Button */}
+      <button
+        type="submit"
+        disabled={loading}
+        className={`w-full px-4 py-2 text-white rounded-md transition ${
+          loading
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500'
+        }`}
+      >
         {loading ? 'Creating...' : 'Create Post'}
       </button>
-      {error && <p>{error}</p>}
+  
+      {/* Error Message */}
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
     </form>
+  </div>
+  
   );
 };
 
