@@ -28,6 +28,8 @@ const handleSubmit = (e) => {
     .then((response) => {
         if([401,500].includes(response?.payload?.status ?? '000')){
             alert(response?.payload?.message)
+        } else {
+          navigate(`/posts/${id}`);
         }
     });
 };
