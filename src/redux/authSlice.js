@@ -1,46 +1,53 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-// Async Thunks for login and registration
-export const loginUser = createAsyncThunk('auth/loginUser', async (credentials, thunkAPI) => {
-  try {
-    const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
-    localStorage.setItem('token', response?.data?.token);
-    return response?.data;
-  } catch (error) {
-    return error;
-    // return thunkAPI.rejectWithValue({
-    //   status: error.response?.status,
-    //   message: error.response?.data.message || error.message,
-    // });
-  }
-});
-
-export const registerUser = createAsyncThunk('auth/registerUser', async (userData, thunkAPI) => {
-  try {
-    const response = await axios.post('http://localhost:5000/api/auth/register', userData);
-    localStorage.setItem('token', response?.data?.token);
-    return response?.data;
-  } catch (error) {
+export const loginUser = createAsyncThunk(
+  "auth/loginUser",
+  async (credentials, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        credentials
+      );
+      localStorage.setItem("token", response?.data?.token);
+      return response?.data;
+    } catch (error) {
       return error;
+    }
   }
-});
+);
+
+export const registerUser = createAsyncThunk(
+  "auth/registerUser",
+  async (userData, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        userData
+      );
+      localStorage.setItem("token", response?.data?.token);
+      return response?.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState: {
     user: null,
-    token: localStorage.getItem('token') ? localStorage.getItem('token') : null,
+    token: localStorage.getItem("token") ? localStorage.getItem("token") : null,
     loading: false,
     error: null,
-    isAuthenticated: !!localStorage.getItem('token'), // Check if user is authenticated based on token
+    isAuthenticated: !!localStorage.getItem("token"),
   },
   reducers: {
     logout: (state) => {
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       state.user = null;
       state.token = null;
-      state.isAuthenticated = false; // Set authenticated state to false on logout
+      state.isAuthenticated = false;
     },
   },
   extraReducers: (builder) => {
@@ -53,7 +60,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload?.token;
-        state.isAuthenticated = true; // Set authenticated state to true on successful login
+        state.isAuthenticated = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
@@ -67,7 +74,7 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = action.payload;
         state.token = action.payload.token;
-        state.isAuthenticated = true; // Set authenticated state to true on successful registration
+        state.isAuthenticated = true;
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.loading = false;

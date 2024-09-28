@@ -7,11 +7,10 @@ import { logout } from "../redux/authSlice";
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated); // Get the auth state
-
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   const handleLogout = () => {
-    dispatch(logout()); // Dispatch logout action
-    navigate("/"); // Redirect to the home page after logout
+    dispatch(logout());
+    navigate("/");
   };
 
   const LinkClass = ({ isActive }) =>

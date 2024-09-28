@@ -1,7 +1,7 @@
-// components/CommentSection.js
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchComments, addComment, deleteComment, updateComment } from '../redux/commentSlice';
+import { toast } from "react-toastify";
 
 function CommentSection({ postId }) {
   const dispatch = useDispatch();
@@ -17,6 +17,8 @@ function CommentSection({ postId }) {
   const handleAddComment = () => {
     dispatch(addComment({ postId, content: newComment }));
     setNewComment('');
+    toast.success("Comment Added successfully!");
+
   };
 
   const handleEditComment = (comment) => {
@@ -28,6 +30,7 @@ function CommentSection({ postId }) {
     dispatch(updateComment({ id: editCommentId, content: editCommentContent }));
     setEditCommentId(null);
     setEditCommentContent('');
+    toast.success("Comment updated successfully!");
   };
 
   if (loading) return <p>Loading comments...</p>;
@@ -35,10 +38,7 @@ function CommentSection({ postId }) {
 
   return (
   <div className="mt-8 p-4 bg-gray-50 rounded-lg shadow-md">
-  {/* Comments Header */}
   <h3 className="text-xl font-semibold mb-4 text-gray-800">Comments</h3>
-  
-  {/* Add New Comment */}
   <div className="flex flex-col space-y-2 mb-6">
     <textarea
       value={newComment}
@@ -54,7 +54,6 @@ function CommentSection({ postId }) {
     </button>
   </div>
 
-  {/* Display Comments */}
   <ul className="space-y-4">
     {comments.map((comment) => (
       <li key={comment._id} className="p-4 bg-white rounded-lg shadow-sm border border-gray-200">
@@ -77,7 +76,6 @@ function CommentSection({ postId }) {
     ))}
   </ul>
 
-  {/* Edit Comment Section */}
   {editCommentId && (
     <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
       <textarea

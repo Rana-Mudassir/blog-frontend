@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../redux/authSlice";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -12,29 +13,30 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password })).then((response)=>{
-
-      if([401,500].includes(response?.payload?.status ?? '000')){
-        alert(response?.payload?.message)
+    dispatch(loginUser({ email, password })).then((response) => {
+      if ([401, 500].includes(response?.payload?.status ?? "000")) {
+        toast.error("email or Password is incorrect");
+      } else {
+        toast.success("Login successful!");
+        navigate("/");
       }
-      else {
-        navigate('/'); // Redirect after deletion
-      }
-
     });
-  
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold mb-6 text-center text-indigo-600">Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-indigo-600">
+          Login
+        </h2>
 
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="email" className="block text-gray-700">Email</label>
+            <label htmlFor="email" className="block text-gray-700">
+              Email
+            </label>
             <input
               type="email"
               id="email"
@@ -47,7 +49,9 @@ function Login() {
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-gray-700">Password</label>
+            <label htmlFor="password" className="block text-gray-700">
+              Password
+            </label>
             <input
               type="password"
               id="password"
@@ -69,7 +73,11 @@ function Login() {
         </form>
 
         <p className="mt-4 text-center text-gray-600">
-          If you are not registered, <a href="/signup" className="text-indigo-600 hover:underline">sign up here</a>.
+          If you are not registered,{" "}
+          <a href="/signup" className="text-indigo-600 hover:underline">
+            sign up here
+          </a>
+          .
         </p>
       </div>
     </div>

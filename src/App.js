@@ -7,12 +7,17 @@ import PostList from "./components/PostList";
 import CreatePost from "./components/CreatePost";
 import PostDetails from "./components/PostDetails";
 import EditPost from "./components/EditPost";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Footer from "./components/Footer";
 
 function App() {
   return (
-    <Router>
-      <Navbar />
-        <div className="container">
+    <div className="flex flex-col min-h-screen">
+      <Router>
+        <Navbar />
+        <ToastContainer />
+        <main className="flex-grow container mx-auto bg-gray-100 px-4 py-8">
           <Routes>
             <Route path="/" element={<PostList />} />
             <Route path="/login" element={<Login />} />
@@ -21,8 +26,10 @@ function App() {
             <Route path="/posts/:id" element={<PostDetails />} />
             <Route path="/edit-post/:id" element={<EditPost />} />
           </Routes>
-        </div>
-    </Router>
+        </main>
+        <Footer />
+      </Router>
+    </div>
   );
 }
 

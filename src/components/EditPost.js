@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPostById, updatePost } from '../redux/postSlice';
+import { toast } from "react-toastify";
+
 
 function EditPost() {
   const { id } = useParams();
@@ -27,8 +29,9 @@ const handleSubmit = (e) => {
   dispatch(updatePost({ id, updatedPost: { title, content, categories: categories.split(',') } }))
     .then((response) => {
         if([401,500].includes(response?.payload?.status ?? '000')){
-            alert(response?.payload?.message)
+          toast.error("Updation not Successful! You might be not a author of this post");
         } else {
+          toast.success("Updated successfully!");
           navigate(`/posts/${id}`);
         }
     });

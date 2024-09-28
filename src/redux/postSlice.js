@@ -1,13 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Async thunks for CRUD operations
+
 export const fetchPosts = createAsyncThunk('posts/fetchPosts', async (page = 1) => {
   const response = await axios.get(`http://localhost:5000/api/posts?page=${page}`);
   return response.data;
 });
 
-// Async thunk for creating a post with image upload
 export const createPost = createAsyncThunk('posts/createPost', async (postData, { rejectWithValue }) => {
 
   const token = localStorage.getItem('token');
@@ -15,18 +14,17 @@ export const createPost = createAsyncThunk('posts/createPost', async (postData, 
   const config = {
     headers: {
       'Content-Type': 'multipart/form-data',
-      Authorization: `Bearer ${token}`, // Attach the token
+      Authorization: `Bearer ${token}`, 
     },
   };
 
   try {
-    // postData will include both text and image
     const formData = new FormData();
     formData.append('title', postData.title);
     formData.append('content', postData.content);
     formData.append('categories', postData.categories);
     if (postData.image) {
-      formData.append('image', postData.image); // Append the image file
+      formData.append('image', postData.image);
     }
 
     const response = await axios.post('http://localhost:5000/api/posts', formData, config
@@ -59,7 +57,6 @@ export const updatePost = createAsyncThunk('posts/updatePost', async ({ id, upda
     const response = await axios.put(`http://localhost:5000/api/posts/${id}`, updatedPost, config);
     return response.data;
   } catch (error) {
-    // Return a rejected value with status and message
     return thunkAPI.rejectWithValue({
       status: error.response?.status,
       message: error.response?.data.message || error.message,
@@ -79,7 +76,6 @@ export const deletePost = createAsyncThunk('posts/deletePost', async (id, thunkA
     return id;
   }
   catch (error) {
-    // Return a rejected value with status and message
     return thunkAPI.rejectWithValue({
       status: error.response?.status,
       message: error.response?.data.message || error.message,

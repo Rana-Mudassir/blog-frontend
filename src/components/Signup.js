@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../redux/authSlice';
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 function Signup() {
   const [name, setName] = useState('');
@@ -14,6 +16,7 @@ function Signup() {
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(registerUser({ name, email, password }));
+    toast.success("Signup successful!");
     navigate("/");
   };
 

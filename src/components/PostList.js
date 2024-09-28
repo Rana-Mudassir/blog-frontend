@@ -1,30 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPosts } from '../redux/postSlice';
-import { Link, useLocation, useNavigate  } from 'react-router-dom'; // Import Link for navigation
-
+import { Link, useLocation, useNavigate  } from 'react-router-dom';
 function PostList() {
   const dispatch = useDispatch();
   const { posts ,loading, error } = useSelector((state) => state.posts);
 
-  const navigate = useNavigate(); // Replace useHistory with useNavigate
+  const navigate = useNavigate();
   const location = useLocation();
 
-  // Extract current page from URL query
+  
   const queryParams = new URLSearchParams(location.search);
   const currentPage = Number(queryParams.get('page')) || 1;
 
-  // Select posts and total pages from the Redux store
   const {  totalPages } = useSelector((state) => ({
     totalPages: state?.posts?.totalPages ?? 10,
   }));
 
-  // Fetch posts whenever currentPage changes
   useEffect(() => {
     dispatch(fetchPosts(currentPage));
   }, [dispatch, currentPage]);
 
-  // Handle page change
   const onPageChange = (page) => {
     navigate(`?page=${page}`); 
   };
@@ -33,7 +29,7 @@ function PostList() {
   if (error) return <p>{error}</p>;
 
   return (
-    <div className="container mx-auto p-10">
+    <div className="container mx-auto p-10 bg-gray-100">
       <h2 className="text-3xl font-bold text-gray-800 mb-6">Blog Posts</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
@@ -56,7 +52,6 @@ function PostList() {
         ))}
       </div>
 
-      {/* Pagination Buttons */}
       {totalPages > 1 && 
       <div className="flex justify-center mt-6 space-x-2">
         {Array.from({ length: totalPages }).map((_, index) => (
