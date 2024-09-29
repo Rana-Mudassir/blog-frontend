@@ -1,70 +1,163 @@
-# Getting Started with Create React App
+<a name="readme-top"></a>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Backend of Project Link 
+- [backend](https://github.com/Rana-Mudassir/blog-frontend.git)
 
-## Available Scripts
+# 📗 Table of Contents
 
-In the project directory, you can run:
+- [📖 About the Project](#about-project)
 
-### `npm start`
+  - [🛠 Built With](#built-with)
+    - [Tech Stack](#tech-stack)
+    - [Key Features](#key-features)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- [💻 Getting Started](#getting-started)
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+  - [Prerequisites](#prerequisites)
+  - [Setup](#setup)
+  - [Install](#install)
+  - [Deployment](#deployment)
+  - [Usage](#usage)
+  - [Run Tests](#runtests)
+  - [Live](#live)
 
-### `npm test`
+- [👥 Authors](#authors)
+- [🔭 Future Features](#features)
+- [🤝 Contribution](#contributing)
+- [⭐️ Show your support](#support)
+- [🙏 Acknowledgements](#acknowledgements)
+- [📝 License](#license)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+<!-- PROJECT DESCRIPTION -->
 
-### `npm run build`
+# 📖 Blog-Manger <a name="about-project"></a>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Blog-Manger** is a website that will allow people to read and create blogs. It provides users friendly interface where they can Create their Profile, create blogs and add comments.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Use React documentation
+- Use React components
+- Use React props
+- Use React Router
+- Connect React and Redux
+- Handle events in a React app
+- Use Tailwand in a React app
+- Use React hooks
+- Apply React best practices and language style guides in code
+- Use store, actions and reducers in React
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠 Built With <a name="built-with"></a>
 
-### `npm run eject`
+### Tech Stack
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+<a name="tech-stack">React,</a>
+<a name="tech-stack">Redux</a>
+<a name="built-with">Tailwand,</a>
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+<!-- Features -->
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Key Features <a name="key-features"></a>
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+This is to practice React
 
-## Learn More
+- **Styling**
+- **Redux**
+- **Fetch data from API**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+<!-- GETTING STARTED -->
 
-### Code Splitting
+## 💻 Getting Started <a name="getting-started"></a>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+To get a local copy up and running, follow these steps.
 
-### Analyzing the Bundle Size
+### Prerequisites
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+In order to run this project you need:
 
-### Making a Progressive Web App
+- Code editor like Visual Studio Code
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Setup
 
-### Advanced Configuration
+Clone this repository to your desired folder:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```sh
+  cd your-folder
+  git clone https://github.com/Rana-Mudassir/blog-frontend.git
+```
+
+### Install
+
+Install this project with:
+
+- npm install
+- npm run build
 
 ### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+You can deploy this project using:
 
-### `npm run build` fails to minify
+- gitHub pages/
+- npm run build
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Usage
+
+- npm run start
+
+<!-- AUTHORS -->
+
+### Live <a name="live"></a>
+
+- [Live Demo](https://blogs-manager.netlify.app/)
+
+## 👥 Authors <a name="authors"></a>
+
+👤 **Mudassir Nazir**
+
+- GitHub: [@Mudassir](https://github.com/Rana-Mudassir)
+- Facebook: [@Facebook](https://www.facebook.com/rana.mudasir.142)
+- LinkedIn: [@LinkedIn](https://www.linkedin.com/in/rana-mudassir-nazir-03541114a/)
+
+👤 **Saw Mon Han**
+
+- GitHub: [@sawmon](https://github.com/sawmon71293)
+- Twitter: [@Twitterhandle](https://twitter.com/sawmonhan)
+- LinkedIn: [@LinkedIn](https://www.linkedin.com/in/saw-mon-han/)
+
+## 🔭 Future Features <a name="features"></a>
+
+- Add more functionalities
+- Update UI
+
+<!-- CONTRIBUTING -->
+
+## 🤝 Contributing <a name="contributing"></a>
+
+Contributions, issues, and feature requests are welcome!
+
+Feel free to  check the [issues page](../../issues/).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- SUPPORT -->
+
+## ⭐️ Show your support <a name="support"></a>
+
+If you like this project, please consider a star on GitHub!
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- ACKNOWLEDGEMENTS -->
+
+## 🙏 Acknowledgments <a name="acknowledgements"></a>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- LICENSE -->
+
+## 📝 License <a name="license"></a>
+
+This project is [MIT](./LICENSE) licensed.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<a name="readme-top"></a>
