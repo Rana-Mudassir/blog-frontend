@@ -2,28 +2,28 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchComments = createAsyncThunk('comments/fetchComments', async (postId) => {
-  const response = await axios.get(`http://localhost:5000/api/comments/${postId}`);
+  const response = await axios.get(`https://blog-backend-y38r.onrender.com/api/comments/${postId}`);
   return response.data;
 });
 
 export const addComment = createAsyncThunk('comments/addComment', async (commentData) => {
   const token = localStorage.getItem('token');
   const config = { headers: { Authorization: `Bearer ${token}` } };
-  const response = await axios.post('http://localhost:5000/api/comments', commentData, config);
+  const response = await axios.post('https://blog-backend-y38r.onrender.com/api/comments', commentData, config);
   return response.data;
 });
 
 export const deleteComment = createAsyncThunk('comments/deleteComment', async (id) => {
   const token = localStorage.getItem('token');
   const config = { headers: { Authorization: `Bearer ${token}` } };
-  await axios.delete(`http://localhost:5000/api/comments/${id}`, config);
+  await axios.delete(`https://blog-backend-y38r.onrender.com/api/comments/${id}`, config);
   return id;
 });
 
 export const updateComment = createAsyncThunk('comments/updateComment', async ({ id, content }) => {
   const token = localStorage.getItem('token');
   const config = { headers: { Authorization: `Bearer ${token}` } };
-  const response = await axios.put(`http://localhost:5000/api/comments/${id}`, { content }, config);
+  const response = await axios.put(`https://blog-backend-y38r.onrender.com/api/comments/${id}`, { content }, config);
   return response.data;
 });
 

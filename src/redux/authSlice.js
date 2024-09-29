@@ -6,7 +6,7 @@ export const loginUser = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://blog-backend-y38r.onrender.com/api/auth/login",
         credentials
       );
       localStorage.setItem("token", response?.data?.token);
@@ -22,7 +22,7 @@ export const registerUser = createAsyncThunk(
   async (userData, thunkAPI) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/register",
+        "https://blog-backend-y38r.onrender.com/api/auth/register",
         userData
       );
       localStorage.setItem("token", response?.data?.token);

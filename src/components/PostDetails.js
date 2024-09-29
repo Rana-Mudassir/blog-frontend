@@ -42,7 +42,7 @@ function PostDetails() {
     <div className="max-w-4xl min-h-screen mx-auto my-8 p-6 bg-white rounded-lg ">
       {post.image && (
         <img
-          src={`http://localhost:5000${post.image}`}
+          src={`https://blog-backend-y38r.onrender.com${post.image}`}
           alt={post.title}
           className="w-full h-auto object-cover mb-6 rounded-lg"
         />

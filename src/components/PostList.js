@@ -39,7 +39,7 @@ function PostList() {
           >
             <Link to={`/posts/${post._id}`}>
               <img
-                src={`http://localhost:5000${post.image}`}
+                src={`https://blog-backend-y38r.onrender.com${post.image}`}
                 alt={post.title}
                 className="w-full h-48 object-cover"
               />
