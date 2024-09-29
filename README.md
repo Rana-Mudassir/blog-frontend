@@ -44,6 +44,10 @@
 - Use React hooks
 - Apply React best practices and language style guides in code
 - Use store, actions and reducers in React
+- Express
+- Authentication
+- Multer for file uploading
+- JWT
 
 ## 🛠 Built With <a name="built-with"></a>
 
