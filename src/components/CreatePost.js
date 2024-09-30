@@ -10,6 +10,7 @@ const CreatePost = () => {
   const [categories, setCategories] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+
   const [errors, setErrors] = useState({});
 
   const dispatch = useDispatch();
@@ -24,39 +25,32 @@ const CreatePost = () => {
 
   const validateForm = () => {
     const newErrors = {};
-
-    if (!title) newErrors.title = "Title is required";
-    if (!content) newErrors.content = "Content is required";
-    if (!image) newErrors.image = "Image is required";
-
+    if (!title) newErrors.title = "Title is required.";
+    if (!content) newErrors.content = "Content is required.";
+    if (!categories) newErrors.categories = "Categories are required.";
+    if (!image) newErrors.image = "Image is required.";
     setErrors(newErrors);
-
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (validateForm()) {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("content", content);
-      formData.append("categories", categories);
-      formData.append("image", image);
-
-      console.log("Form Data:", Array.from(formData.entries()));
-
-      dispatch(createPost(formData)).then((response) => {
-        if (response?.error) {
-          toast.error("Error creating post");
-        } else {
-          toast.success("Post created successfully!");
-          navigate("/");
-        }
-      });
-    } else {
-      toast.error("Please fix the errors before submitting.");
+    if (!validateForm()) {
+      return;
     }
+
+    const postData = {
+      title,
+      content,
+      categories,
+      image,
+    };
+
+    dispatch(createPost(postData)).then(() => {
+      toast.success("Post added successfully!");
+      navigate("/");
+    });
   };
 
   return (
@@ -65,42 +59,65 @@ const CreatePost = () => {
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-lg p-6 bg-white rounded-lg shadow-md space-y-4"
-        encType="multipart/form-data"
       >
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Post Title"
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
+        <div>
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Post Title"
+            className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.title ? "border-red-500" : ""
+            }`}
+          />
+          {errors.title && (
+            <p className="text-red-500 text-sm">{errors.title}</p>
+          )}
+        </div>
 
-        <textarea
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Post Content"
-          rows="5"
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-        {errors.content && <p className="text-red-500 text-sm">{errors.content}</p>}
+        <div>
+          <textarea
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="Post Content"
+            required
+            rows="5"
+            className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.content ? "border-red-500" : ""
+            }`}
+          />
+          {errors.content && (
+            <p className="text-red-500 text-sm">{errors.content}</p>
+          )}
+        </div>
 
-        <input
-          type="text"
-          value={categories}
-          onChange={(e) => setCategories(e.target.value)}
-          placeholder="Categories (comma-separated)"
-          className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+        <div>
+          <input
+            type="text"
+            value={categories}
+            onChange={(e) => setCategories(e.target.value)}
+            placeholder="Categories (comma-separated)"
+            className={`w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              errors.categories ? "border-red-500" : ""
+            }`}
+          />
+          {errors.categories && (
+            <p className="text-red-500 text-sm">{errors.categories}</p>
+          )}
+        </div>
 
         <div className="flex flex-col space-y-2">
           <input
             type="file"
             accept="image/*"
             onChange={handleImageChange}
-            className="w-full p-2 border border-gray-300 rounded-md"
+            className={`w-full p-2 border border-gray-300 rounded-md ${
+              errors.image ? "border-red-500" : ""
+            }`}
           />
-          {errors.image && <p className="text-red-500 text-sm">{errors.image}</p>}
+          {errors.image && (
+            <p className="text-red-500 text-sm">{errors.image}</p>
+          )}
           {imagePreview && (
             <img
               src={imagePreview}

@@ -15,10 +15,13 @@ function CommentSection({ postId }) {
   }, [dispatch, postId]);
 
   const handleAddComment = () => {
+    if (!newComment.trim()) {
+      toast.error("Comment cannot be empty!");
+      return;
+    }
     dispatch(addComment({ postId, content: newComment }));
     setNewComment('');
-    toast.success("Comment Added successfully!");
-
+    toast.success("Comment added successfully!");
   };
 
   const handleEditComment = (comment) => {
@@ -27,6 +30,10 @@ function CommentSection({ postId }) {
   };
 
   const handleUpdateComment = () => {
+    if (!editCommentContent.trim()) {
+      toast.error("Comment cannot be empty!");
+      return;
+    }
     dispatch(updateComment({ id: editCommentId, content: editCommentContent }));
     setEditCommentId(null);
     setEditCommentContent('');
@@ -37,62 +44,61 @@ function CommentSection({ postId }) {
   if (error) return <p>{error}</p>;
 
   return (
-  <div className="mt-8 p-4 bg-gray-50 rounded-lg shadow-md">
-  <h3 className="text-xl font-semibold mb-4 text-gray-800">Comments</h3>
-  <div className="flex flex-col space-y-2 mb-6">
-    <textarea
-      value={newComment}
-      onChange={(e) => setNewComment(e.target.value)}
-      placeholder="Add a comment..."
-      className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-    />
-    <button
-      onClick={handleAddComment}
-      className="self-end px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
-    >
-      Submit
-    </button>
-  </div>
+    <div className="mt-8 p-4 bg-gray-50 rounded-lg shadow-md">
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">Comments</h3>
+      <div className="flex flex-col space-y-2 mb-6">
+        <textarea
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+          placeholder="Add a comment..."
+          className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <button
+          onClick={handleAddComment}
+          className="self-end px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+        >
+          Submit
+        </button>
+      </div>
 
-  <ul className="space-y-4">
-    {comments.map((comment) => (
-      <li key={comment._id} className="p-4 bg-white rounded-lg shadow-sm border border-gray-200">
-        <p className="text-gray-700 mb-2">{comment.content}</p>
-        <div className="flex space-x-4">
+      <ul className="space-y-4">
+        {comments.map((comment) => (
+          <li key={comment._id} className="p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+            <p className="text-gray-700 mb-2">{comment.content}</p>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => handleEditComment(comment)}
+                className="text-blue-500 hover:underline"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => dispatch(deleteComment(comment._id))}
+                className="text-red-500 hover:underline"
+              >
+                Delete
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      {editCommentId && (
+        <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
+          <textarea
+            value={editCommentContent}
+            onChange={(e) => setEditCommentContent(e.target.value)}
+            className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
           <button
-            onClick={() => handleEditComment(comment)}
-            className="text-blue-500 hover:underline"
+            onClick={handleUpdateComment}
+            className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
           >
-            Edit
-          </button>
-          <button
-            onClick={() => dispatch(deleteComment(comment._id))}
-            className="text-red-500 hover:underline"
-          >
-            Delete
+            Update
           </button>
         </div>
-      </li>
-    ))}
-  </ul>
-
-  {editCommentId && (
-    <div className="mt-6 p-4 bg-gray-100 rounded-lg shadow-md">
-      <textarea
-        value={editCommentContent}
-        onChange={(e) => setEditCommentContent(e.target.value)}
-        className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-      <button
-        onClick={handleUpdateComment}
-        className="mt-2 px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition"
-      >
-        Update
-      </button>
+      )}
     </div>
-  )}
-</div>
-
   );
 }
 
