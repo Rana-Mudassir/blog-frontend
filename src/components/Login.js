@@ -7,20 +7,44 @@ import { toast } from "react-toastify";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Invalid email address";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password })).then((response) => {
-      if ([401, 500].includes(response?.payload?.status ?? "000")) {
-        toast.error("email or Password is incorrect");
-      } else {
-        toast.success("Login successful!");
-        navigate("/");
-      }
-    });
+
+    if (validateForm()) {
+      dispatch(loginUser({ email, password })).then((response) => {
+        if ([401, 500].includes(response?.payload?.status ?? "000")) {
+          toast.error("Email or Password is incorrect");
+        } else {
+          toast.success("Login successful!");
+          navigate("/");
+        }
+      });
+    } else {
+      toast.error("Please fix the errors before submitting.");
+    }
   };
 
   return (
@@ -43,9 +67,9 @@ function Login() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
 
           <div>
@@ -58,9 +82,9 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
 
           <button

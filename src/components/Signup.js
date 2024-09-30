@@ -4,29 +4,60 @@ import { registerUser } from '../redux/authSlice';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
 function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const { loading, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!name) {
+      newErrors.name = "Name is required";
+    } else if (name.length < 3) {
+      newErrors.name = "Name must be at least 3 characters long";
+    }
+
+    if (!email) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = "Invalid email address";
+    }
+
+    if (!password) {
+      newErrors.password = "Password is required";
+    } else if (password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters long";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(registerUser({ name, email, password }));
-    toast.success("Signup successful!");
-    navigate("/");
+    
+    if (validateForm()) {
+      dispatch(registerUser({ name, email, password }));
+      toast.success("Signup successful!");
+      navigate("/");
+    } else {
+      toast.error("Please fix the errors before submitting.");
+    }
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <h2 className="text-2xl font-bold mb-6 text-center text-indigo-600">Signup</h2>
-        
+
         {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-gray-700">Name</label>
@@ -36,11 +67,11 @@ function Signup() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="Enter your name"
-              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             />
+            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
           </div>
-          
+
           <div>
             <label htmlFor="email" className="block text-gray-700">Email</label>
             <input
@@ -49,11 +80,11 @@ function Signup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email"
-              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
-          
+
           <div>
             <label htmlFor="password" className="block text-gray-700">Password</label>
             <input
@@ -62,11 +93,11 @@ function Signup() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500"
             />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
-          
+
           <button
             type="submit"
             disabled={loading}
