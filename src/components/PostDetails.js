@@ -10,6 +10,7 @@ function PostDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { post, loading, error } = useSelector((state) => state.posts);
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(fetchPostById(id));
@@ -20,7 +21,7 @@ function PostDetails() {
       dispatch(deletePost(id)).then((response) => {
         if ([401, 500].includes(response?.payload?.status ?? "000")) {
           toast.error(
-            "Deletion not successful! You might be not author of this post"
+            "Deletion not successful! You might not be the author of this post"
           );
         } else {
           toast.success("Deleted successfully!");
@@ -62,19 +63,24 @@ function PostDetails() {
       </div>
 
       <div className="flex space-x-4 mb-8">
-        <button
-          className="px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition"
-          onClick={handleUpdate}
-        >
-          Update Post
-        </button>
-        <button
-          className="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition"
-          onClick={handleDelete}
-        >
-          Delete Post
-        </button>
+        {user && post.author && user._id === post.author._id && (
+          <>
+            <button
+              className="px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition"
+              onClick={handleUpdate}
+            >
+              Update Post
+            </button>
+            <button
+              className="px-4 py-2 border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition"
+              onClick={handleDelete}
+            >
+              Delete Post
+            </button>
+          </>
+        )}
       </div>
+
       <div className="mt-8">
         <CommentSection postId={post._id} />
       </div>
